@@ -10,16 +10,28 @@ class GameViewModel: ObservableObject {
     @Published var gameWon = false
     @Published var gameOver = false
     @Published var validSwipes = 0 // New property for valid swipes
+    @Published var boardSize: Int = 4  // Default board size is 4x4
 
+       // Function to update the board size
+       func setBoardSize(size: Int) {
+           boardSize = size
+           resetGame()  // Optional: Reset the game when the board size changes
+       }
+
+     var gridSize: Int = 4
+     var targetValue: Int = 1024
     
-    private let gridSize = 4
-    private let targetValue = 1024
-    
+    /*
     init () {
-        grid = Array(repeating: Array(repeating: 0, count: 4), count: 4)
+        grid = Array(repeating: Array(repeating: 0, count: gridSize), count: gridSize)
+        placeRandomNumber()
+    }*/
+    init(gridSize: Int = 4, targetValue: Int = 1024) {
+        self.gridSize = gridSize
+        self.targetValue = targetValue
+        self.grid = Array(repeating: Array(repeating: 0, count: gridSize), count: gridSize)
         placeRandomNumber()
     }
-    
     func placeRandomNumber(){ // Find all empty cells
     var emptyCells: [(Int, Int)] = []
     for row in 0..<grid.count {
